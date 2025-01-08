@@ -93,6 +93,10 @@ private val darkScheme = darkColorScheme(
 )
 
 
+val InstitutionalGreen = Color(0xFF7CB342)
+val InstitutionalOrange = Color(0xFFFFB300)
+val InstitutionalBlue = Color(0xFF039BE5)
+
 @Immutable
 data class ColorFamily(
     val color: Color,

@@ -1,5 +1,7 @@
 package com.example.comunicaciones.presentation.navigation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -9,8 +11,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.comunicaciones.presentation.ui.screens.HomeScreen
 import com.example.comunicaciones.presentation.ui.screens.LoginScreen
+import com.example.comunicaciones.presentation.viewmodel.HomeViewModel
 import com.example.comunicaciones.presentation.viewmodel.LoginViewModel
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun NavigationRoot(
     navController: NavHostController
@@ -33,7 +37,10 @@ fun NavigationRoot(
             }
 
             composable<HomeScreenDes> {
-                HomeScreen()
+                val homeScreenViewModel = HomeViewModel()
+                HomeScreen(
+                    viewModel = homeScreenViewModel
+                )
             }
         }
     }

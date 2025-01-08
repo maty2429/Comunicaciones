@@ -20,8 +20,15 @@ object RetrofitBuilder {
 
 
         val loginSerive: LoginService by lazy {
-            RetrofitBuilder.createRetrofitInstance(LOGIN_BASE_URL)
-                .create(LoginService::class.java)
+            RetrofitBuilder.createRetrofitInstance(LOGIN_BASE_URL).create(LoginService::class.java)
+        }
+
+        val newsService: NoticiaService by lazy {
+            RetrofitBuilder.createRetrofitInstance(NEWS_BASE_URL).create(NoticiaService::class.java)
+        }
+
+        val minioService: MinioService by lazy {
+            RetrofitBuilder.createRetrofitInstance(MINIO_BASE_URL).create(MinioService::class.java)
         }
 
     }
