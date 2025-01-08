@@ -1,6 +1,7 @@
 package com.example.comunicaciones.presentation.ui.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -40,7 +41,6 @@ fun LoginScreen(
     navigateToHomeScreen: (String?) -> Unit,
     viewModel: LoginViewModel
 ) {
-
     val uiState by viewModel.uiState.collectAsState()
 
     var rut by remember { mutableStateOf(TextFieldValue("")) }
@@ -51,6 +51,7 @@ fun LoginScreen(
 
     var showErrorDialog by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf("") }
+    var isLoading by remember { mutableStateOf(false) }
 
     fun validateForm(): Boolean {
         return FormValidatorLogin.validateForm(
@@ -63,6 +64,7 @@ fun LoginScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background) // Fondo dinámico según el tema
             .padding(16.dp),
         contentAlignment = Alignment.Center
     ) {
@@ -105,7 +107,7 @@ fun LoginScreen(
             if (rutError) {
                 Text(
                     text = "RUT es requerido",
-                    color = Color.Red,
+                    color = MaterialTheme.colorScheme.error,
                     style = MaterialTheme.typography.bodySmall,
                     modifier = Modifier.padding(start = 16.dp)
                 )
@@ -121,7 +123,7 @@ fun LoginScreen(
             if (passwordError) {
                 Text(
                     text = "Contraseña es requerida",
-                    color = Color.Red,
+                    color = MaterialTheme.colorScheme.error,
                     style = MaterialTheme.typography.bodySmall,
                     modifier = Modifier.padding(start = 16.dp)
                 )
@@ -129,30 +131,32 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Button(
-                onClick = {
-                    if (validateForm()) {
-                        viewModel.login(rut.text, password.text)
-                    }
-                },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Iniciar Sesión")
+            if (isLoading) {
+                CircularProgressIndicator()
+            } else {
+                Button(
+                    onClick = {
+                        if (validateForm()) {
+                            isLoading = true
+                            viewModel.login(rut.text, password.text)
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("Iniciar Sesión")
+                }
             }
 
-            LaunchedEffect(uiState){
+            LaunchedEffect(uiState) {
                 if (uiState is LoginUiState.Success) {
                     navigateToHomeScreen((uiState as LoginUiState.Success).token)
                 } else if (uiState is LoginUiState.Error) {
                     errorMessage = (uiState as LoginUiState.Error).message
                     showErrorDialog = true
+                    isLoading = false
                 }
             }
             Spacer(modifier = Modifier.height(16.dp))
-
-            if (uiState is LoginUiState.Loading) {
-                CircularProgressIndicator()
-            }
 
             if (showErrorDialog) {
                 AlertDialog(
