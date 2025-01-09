@@ -52,7 +52,10 @@ val multiColorGradient = Brush.linearGradient(
 )
 
 @Composable
-fun NoticasDestacadasComponent(comunicados: List<NoticiaMinimalModel>) {
+fun NoticasDestacadasComponent(
+    comunicados: List<NoticiaMinimalModel>,
+    navigateToDetalleNoticiaScreen: (Int) -> Unit
+) {
     if (comunicados.isEmpty()) {
         Box(
             modifier = Modifier
@@ -92,6 +95,7 @@ fun NoticasDestacadasComponent(comunicados: List<NoticiaMinimalModel>) {
                     .fillMaxWidth()
                     .height(320.dp)
                     .clickable {
+                        navigateToDetalleNoticiaScreen(comunicados[page].ID)
                     }
             ) {
                 // Imagen de fondo

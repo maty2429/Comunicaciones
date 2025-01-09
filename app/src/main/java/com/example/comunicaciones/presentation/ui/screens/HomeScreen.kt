@@ -38,6 +38,7 @@ import com.example.comunicaciones.ui.components.LastNewsCompontent.UltimasNotica
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
+    navigateToDetalleNoticiaScreen: (Int) -> Unit,
     viewModel: HomeViewModel = viewModel()
 ) {
     val title = "Comunicaciones"
@@ -98,7 +99,8 @@ fun HomeScreen(
                         .height(250.dp)
                 ) {
                     NoticasDestacadasComponent(
-                        comunicados = viewModel.noticias.collectAsState().value
+                        comunicados = viewModel.noticias.collectAsState().value,
+                        navigateToDetalleNoticiaScreen = navigateToDetalleNoticiaScreen
                     )
                 }
                 Text(
@@ -109,7 +111,8 @@ fun HomeScreen(
                 )
                 Box(modifier = Modifier.fillMaxSize()) {
                     UltimasNoticasComponent(
-                        comunicados = viewModel.noticias.collectAsState().value
+                        comunicados = viewModel.noticias.collectAsState().value,
+                        navigateToDetalleNoticiaScreen = navigateToDetalleNoticiaScreen
                     )
                 }
             }

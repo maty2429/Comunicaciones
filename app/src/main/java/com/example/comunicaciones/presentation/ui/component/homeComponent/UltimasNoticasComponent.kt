@@ -45,20 +45,29 @@ import com.example.comunicaciones.core.utils.formatFecha
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun UltimasNoticasComponent(comunicados: List<NoticiaMinimalModel>) {
+fun UltimasNoticasComponent(
+    comunicados: List<NoticiaMinimalModel>,
+    navigateToDetalleNoticiaScreen: (Int) -> Unit
+) {
     LazyColumn(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(12.dp) // Espacio entre los elementos
     ) {
         items(comunicados) { comunicado ->
-            NoticiaCard(comunicado)
+            NoticiaCard(
+                comunicado,
+                navigateToDetalleNoticiaScreen
+            )
         }
     }
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun NoticiaCard(comunicado: NoticiaMinimalModel) {
+fun NoticiaCard(
+    comunicado: NoticiaMinimalModel,
+    navigateToDetalleNoticiaScreen: (Int) -> Unit
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -79,7 +88,10 @@ fun NoticiaCard(comunicado: NoticiaMinimalModel) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(12.dp),
+                    .padding(12.dp)
+                    .clickable {
+                        navigateToDetalleNoticiaScreen(comunicado.ID)
+                    },
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 // Imagen
@@ -116,7 +128,8 @@ fun NoticiaCard(comunicado: NoticiaMinimalModel) {
                         )
                         Spacer(modifier = Modifier.width(4.dp))
                         Text(
-                            text = formatFecha(comunicado.FechaPublicacion) ?: "Fecha no disponible",
+                            text = formatFecha(comunicado.FechaPublicacion)
+                                ?: "Fecha no disponible",
                             style = MaterialTheme.typography.bodySmall.copy(
                                 fontSize = 12.sp,
                                 color = Color.Gray

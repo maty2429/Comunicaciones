@@ -13,6 +13,12 @@ android {
     namespace = "com.example.comunicaciones"
     compileSdk = 34
 
+    packaging {
+        resources {
+            excludes += "META-INF/versions/9/OSGI-INF/MANIFEST.MF"
+        }
+    }
+
     defaultConfig {
         applicationId = "com.example.comunicaciones"
         minSdk = 24
@@ -58,6 +64,7 @@ dependencies {
     implementation(libs.androidx.ui.text.google.fonts)
     implementation(libs.androidx.foundation.android)
     implementation(libs.androidx.foundation.android)
+    implementation(libs.identity.jvm)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.androidx.navigation.compose)
@@ -85,4 +92,9 @@ dependencies {
     //coli
     implementation(libs.coil.compose)
     implementation(libs.coil.svg)
+
+    //weas
+    implementation ("com.auth0:java-jwt:4.2.1")
+    implementation ("commons-codec:commons-codec:1.15")
+
 }

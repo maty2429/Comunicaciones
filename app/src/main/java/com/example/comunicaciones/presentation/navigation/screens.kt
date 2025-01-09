@@ -8,3 +8,6 @@ object HomeScreenDes
 
 @Serializable
 object LoginScreenDes
+
+@Serializable
+data class DetalleNoticiaScreenDes(val id: Int)
